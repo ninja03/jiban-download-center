@@ -1,34 +1,49 @@
-<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>福井ボーリングオープンデータ</title>
-</head><body>
-<h1>福井ボーリングオープンデータ<br>オープン検索＆ダウンロード</h1>
+<!DOCTYPE html>
+<html lang="ja">
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>福井地盤データダウンロードセンター</title>
+  <style>
+    .search {
+      background: lightcyan;
+      padding: 1rem;
+    }
 
-<pre>
-  <b>検索</b><br>
-  <input type="checkbox">非表示
-  <input type="checkbox">孔口標高<input>（m）
-  <input type="checkbox">総削孔長(総掘進長)<input>（m）
-  <input type="checkbox">PDFファイル
-  <input type="checkbox">標準貫入試験(N値)
-  <input type="checkbox">孔内水位<input>（m）
-  <input type="checkbox">速度検層
-  <input type="checkbox">孔内(水平)載荷試験
-  <input type="checkbox">透水試験
-  <input type="checkbox">その他原位置試験（電気検層も含む）
-  <input type="checkbox">試料採取
-  <input type="checkbox">地質時代・地層岩体区分
-  </pre>
-  <button>検索</button>
+    .download {
+      background: lightcyan;
+      padding: 1rem;
+    }
+  </style>
+  <script type="module" src="./csv-map.js"></script>
+</head>
 
-<script type="module" src="./csv-map.js"></script>
-<csv-map src="./boring.csv"></csv-map>
-<hr>
-<br>
-<hr>
-<ul id="dllist">
-  
-</ul>
-<button>ダウンロード</button>
-<hr>
-<a href=https://github.com/GeoFUKUI/jiban-opendata/>福井地盤オープンデータ on GitHub</a><br>
+<body>
+  <h1>福井地盤データダウンロードセンター</h1>
+  <csv-map src="./boring.csv"></csv-map>
+  <div class="search">
+    <h2>検索</h2>
+    <div><input type="checkbox">非表示</div>
+    <div><input type="checkbox">孔口標高<input>（m）</div>
+    <div><input type="checkbox">総削孔長(総掘進長)<input>（m）</div>
+    <div><input type="checkbox">PDFファイル</div>
+    <div><input type="checkbox">標準貫入試験(N値)</div>
+    <div><input type="checkbox">孔内水位<input>（m）</div>
+    <div><input type="checkbox">速度検層</div>
+    <div><input type="checkbox">孔内(水平)載荷試験</div>
+    <div><input type="checkbox">透水試験</div>
+    <div><input type="checkbox">その他原位置試験（電気検層も含む）</div>
+    <div><input type="checkbox">試料採取</div>
+    <div><input type="checkbox">地質時代・地層岩体区分</div>
+    <div><button>検索</button></div>
+  </div>
+
+  <div class="download">
+    <h2>ダウンロードリスト</h2>
+    <ul id="dllist"></ul>
+    <button>ダウンロード</button>
+  </div>
+</body>
+
+</html>
