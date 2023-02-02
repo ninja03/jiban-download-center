@@ -8,9 +8,9 @@ LeafletSprite.init(L);
 
 const getResized = (w, h, min) => {
   if (w > h) {
-      return { width: min, height: min * h / w };
+    return { width: min, height: min * h / w };
   } else {
-      return { width: min * w / h, height: min };
+    return { width: min * w / h, height: min };
   }
 };
 const omit = (s, len) => {
@@ -57,7 +57,7 @@ class CSVMap extends HTMLElement {
     this.appendChild(div);
     div.style.width = this.getAttribute("width") || "100%";
     div.style.height = this.getAttribute("height") || "60vh";
-    
+
     this.map = L.map(div);
     // set 国土地理院地図 https://maps.gsi.go.jp/development/ichiran.html
     const land = "https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png";
@@ -68,14 +68,6 @@ class CSVMap extends HTMLElement {
     }).addTo(this.map);
 
     await this.redraw();
-
-    // let ne = { lat: 36.5, lng: 136 };
-    let imageUrl = "GSJ_MAP_G050_10047_2007_200dpi.jpg",
-    imageBounds = new L.LatLngBounds(
-      [36.17975000, 135.99711111],
-      [36.16975000 + 0.75, 135.99711111 + 1.5]
-    );
-    L.imageOverlay(imageUrl, imageBounds).addTo(this.map);
   }
   set value(d) { // JSON or CSV string
     if (typeof d == "string") {
@@ -207,10 +199,20 @@ class CSVMap extends HTMLElement {
       return res;
     })();
     const tbl = this.makeTable(d2);
+
+    const reg = /^https:\/\/geofukui.github.io\/jiban-opendata\/data\/(\d*)\/DATA\/(BED\d*)\.XML$/;
+    const result = url.match(reg);
+    const id1 = result[1];
+    const id2 = result[2];
+    const xml = `BOREHOLE_FUKUI,${id1}-${id2}`;
+
+    const dlbutton = `<button onclick='add("${title}", "${url}")'>ダウンロードに追加</button>`;
+    const chujouzu = `<a href='https://www.geo-stn.bosai.go.jp/api/boring_xml/index.php?xml=${xml}'><img style='width: 100%;' src='https://www.geo-stn.bosai.go.jp/api/boring_xml/img.php?xml=${xml}&top=0&bottom=38.65&color=1'></a>`;
+
     marker.bindPopup(
       (title ? (url ? `<a href=${url}>${title}</a>` : title) : "") + tbl
-      + `<button onclick='add("${url}")'>ダウンロードに追加</button><br>`
-      + "<a href='https://www.geo-stn.bosai.go.jp/api/boring_xml/index.php?xml=BOREHOLE_FUKUI,18000238502000134-BED0001'><img style='width: 100%;' src='https://www.geo-stn.bosai.go.jp/api/boring_xml/img.php?xml=BOREHOLE_FUKUI,18000238502000134-BED0001&top=0&bottom=38.65&color=1'></a>"
+      + `${dlbutton}<br>`
+      + `${chujouzu}`
     );
   }
 
@@ -242,11 +244,10 @@ class CSVMap extends HTMLElement {
 customElements.define("csv-map", CSVMap);
 
 
-window.add = (url) => {
+window.add = (title, url) => {
   dllist.innerHTML += `
-    <li><a href="${url}">${url}</a></li>
-  `
-
+    <li><a href="${url}">${title}</a></li>
+  `;
 }
 
 export { CSVMap };
