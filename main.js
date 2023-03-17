@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.179.0/http/server.ts";
 import { serveDir } from "https://deno.land/std@0.179.0/http/file_server.ts";
 import { renderFileToString } from "https://deno.land/x/dejs@0.10.3/mod.ts";
-import { parse } from "https://deno.land/std@0.79.0/encoding/csv.ts";
+import { parse } from "https://deno.land/std@0.180.0/encoding/csv.ts";
 
 const renderPage = async (tpl, params) => {
   const body = await renderFileToString(`${Deno.cwd()}/${tpl}`, params);
