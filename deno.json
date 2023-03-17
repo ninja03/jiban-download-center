@@ -1,6 +1,7 @@
 {
   "lock": false,
   "tasks": {
-    "start": "deno run -A --watch main.js"
+    "start": "deno run -A --watch main.js",
+    "deploy": "deployctl deploy --project=jiban main.js"
   }
 }
