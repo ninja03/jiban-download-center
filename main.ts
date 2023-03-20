@@ -1,34 +1,13 @@
-import { serve } from "https://deno.land/std@0.179.0/http/server.ts";
-import { serveDir } from "https://deno.land/std@0.179.0/http/file_server.ts";
-import {
-  Params,
-  renderFileToString,
-} from "https://deno.land/x/dejs@0.10.3/mod.ts";
-import { parse } from "https://deno.land/std@0.180.0/encoding/csv.ts";
+/// <reference no-default-lib="true" />
+/// <reference lib="dom" />
+/// <reference lib="dom.iterable" />
+/// <reference lib="dom.asynciterable" />
+/// <reference lib="deno.ns" />
 
-async function renderPage(tpl: string, params: Params = {}) {
-  const body = await renderFileToString(`${Deno.cwd()}/${tpl}`, params);
-  return new Response(body, {
-    headers: { "content-type": "text/html" },
-  });
-}
+import { start } from "$fresh/server.ts";
+import manifest from "./fresh.gen.ts";
 
-async function index() {
-  const data = await Deno.readTextFile("boring.csv");
-  const csv = parse(data, { skipFirstRow: true });
-  const borings = csv;
-  return { borings };
-}
+import twindPlugin from "$fresh/plugins/twind.ts";
+import twindConfig from "./twind.config.ts";
 
-async function handler(req: Request) {
-  const { pathname } = new URL(req.url);
-  const path = `${req.method} ${pathname}`;
-
-  switch (path) {
-    case "GET /":
-      return renderPage("index.ejs", await index());
-  }
-  return serveDir(req, { fsRoot: "./static/" });
-}
-
-serve(handler);
+await start(manifest, { plugins: [twindPlugin(twindConfig)] });
